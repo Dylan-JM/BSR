@@ -1,0 +1,35 @@
+﻿@page
+@model BSR.Pages.Index
+
+@{
+    
+}
+
+<head>
+	<link rel="stylesheet" href="css/site.css"/>
+</head>
+
+@if (Model.Homes is not null && Model.Homes.Count > 0){
+	<table>
+		<thead>
+		<tr>
+			<th>Price</th>
+			<th>Address</th>
+			<th>Square meters</th>
+		</tr>
+		</thead>
+		<tbody>
+		@foreach (var home in Model.Homes){
+			<tr class="@(home.Price > Model.ThresholdPrice ? "expensive-home" : "")">
+				<td>@home.Price.ToString("C")</td>
+				<td>@home.Address</td>
+				<td>@home.Area</td>
+			</tr>
+		}
+		</tbody>
+	</table>
+}
+else
+{
+	<p class = "empty-list">No homes available</p>
+}
