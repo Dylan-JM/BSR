@@ -1,24 +1,14 @@
 ﻿using BSR.Models;
-using BSR.Services;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace BSR.Pages;
+namespace BSR.Services;
 
-public class Index : PageModel
+public class HomeService
 {
-    private readonly HomeService _homeService;
+    private List<Home> _homes;
 
-    public Index(HomeService homeService)
+    public HomeService()
     {
-        _homeService = homeService;
-    }
-
-    public List<Home> Homes { get; private set; }
-    public decimal ThresholdPrice { get; set; }
-
-    public void OnGet()
-    {
-        /*Homes = new List<Home>
+        _homes = new List<Home>
         {
             new Home
             {
@@ -92,8 +82,16 @@ public class Index : PageModel
                 Address = "909 Redwood St",
                 Area = 158,
             },
-        };*/
-        Homes = _homeService.GetHomes();
-        ThresholdPrice = 400000;
+        };
+    }
+
+    public List<Home> GetHomes()
+    {
+        return _homes;
+    }
+
+    public void AddHome(Home home)
+    {
+        _homes.Add(home);
     }
 }
