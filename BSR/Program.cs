@@ -1,9 +1,14 @@
 using BSR.Services;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddRazorPages();
 builder.Services.AddSingleton<HomeService>();
+
+builder.Services.AddRazorPages(opt =>
+{
+    opt.Conventions.ConfigureFilter(new IgnoreAntiforgeryTokenAttribute());
+});
 
 var app = builder.Build();
 

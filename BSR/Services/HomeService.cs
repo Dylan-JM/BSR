@@ -111,4 +111,19 @@ public class HomeService
     {
         return _homes.Single(h => h.Id == id);
     }
+
+    public void DeleteHome(int id)
+    {
+        var home = _homes.FirstOrDefault(h => h.Id == id);
+        _homes.Remove(home);
+    }
+
+    public void UpdateHome(Home updatedHome)
+    {
+        var home = _homes.FirstOrDefault(h => h.Id == updatedHome.Id);
+
+        home.Price = updatedHome.Price;
+        home.Address = updatedHome.Address;
+        home.Area = updatedHome.Area;
+    }
 }
