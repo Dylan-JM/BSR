@@ -7,14 +7,17 @@
 	<div>
 		<label asp-for="Home.Price"></label>
 		<input asp-for="Home.Price" class="form-control" />
+		<span asp-validation-for="Home.Price"></span>
 	</div>
 	<div>
 		<label asp-for="Home.Address"></label>
 		<input asp-for="Home.Address" class="form-control" />
+		<span asp-validation-for="Home.Address"></span>
 	</div>
 	<div>
 		<label asp-for="Home.Area"></label>
 		<input asp-for="Home.Area" class="form-control" />
+		<span asp-validation-for="Home.Area"></span>
 	</div>
 	<input asp-for="Home.Id" type="hidden" />
 	<button type="submit">Save Changes</button>

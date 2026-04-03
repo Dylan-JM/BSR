@@ -30,6 +30,10 @@ public class HomeDetail : PageModel
 
     public IActionResult OnPostUpdate()
     {
+        if (!ModelState.IsValid)
+        {
+            return Page();
+        }
         _homeService.UpdateHome(Home);
 
         return RedirectToPage("/Index");

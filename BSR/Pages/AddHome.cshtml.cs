@@ -21,6 +21,10 @@ public class AddHome : PageModel
 
     public IActionResult OnPost()
     {
+        if (!ModelState.IsValid)
+        {
+            return Page();
+        }
         _homeService.AddHome(NewHome);
         return RedirectToPage("./Index");
     }
