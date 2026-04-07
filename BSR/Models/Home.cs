@@ -17,5 +17,5 @@ public class Home
     [Range(1, int.MaxValue, ErrorMessage = "The Area must be a positive value.")]
     public int Area { get; set; }
 
-    public string ImageURL { get; set; } = string.Empty;
+    public string ImageUrl { get; set; } = string.Empty;
 }

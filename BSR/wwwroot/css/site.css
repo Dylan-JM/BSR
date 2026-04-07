@@ -1,13 +1,9 @@
-﻿.expensive-home{
-    background-color: #ffcccc;
-    font-weight: bold;
+﻿.home-price {
+    font-weight: 600;
+    color: blue;
 }
 
-.layout-div{
-    border: 2px solid red;
-    padding: 10px;
-}
-
-.index-div{
-    border: 2px dotted green;
+.home-area {
+    font-weight: 600;
+    color: red;
 }
