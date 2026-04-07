@@ -5,10 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddRazorPages(opt =>
-{
-    opt.Conventions.ConfigureFilter(new IgnoreAntiforgeryTokenAttribute());
-});
+builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<HomeService>();
 
@@ -25,6 +22,6 @@ using (var scope = app.Services.CreateScope())
 
 app.UseStaticFiles();
 
-app.MapRazorPages();
+app.MapControllerRoute(name: "default", pattern: "{controller=Homes}/{action=Index}/{id?}");
 
 app.Run();
