@@ -3,32 +3,32 @@
 
 <h2>Update Home Details</h2>
 
-<form method="post" asp-page-handler="Update">
-	<div>
+<a class="btn btn-outline-dark mt-3 mb-3" asp-page="/Index">Back to Home List</a>
+
+<form class="pb-3" method="post" asp-page-handler="Update" id="updateHomeForm">
+	<div class="form-group pb-3">
 		<label asp-for="Home.Price"></label>
-		<input asp-for="Home.Price" class="form-control" />
-		<span asp-validation-for="Home.Price"></span>
+		<input asp-for="Home.Price" class="form-control w-25"/>
+		<span asp-validation-for="Home.Price" class="text-danger"></span>
 	</div>
-	<div>
+	<div class="form-group pb-3">
 		<label asp-for="Home.Address"></label>
-		<input asp-for="Home.Address" class="form-control" />
-		<span asp-validation-for="Home.Address"></span>
+		<input asp-for="Home.Address" class="form-control w-25"/>
+		<span asp-validation-for="Home.Address" class="text-danger"></span>
 	</div>
-	<div>
+	<div class="form-group pb-3">
 		<label asp-for="Home.Area"></label>
-		<input asp-for="Home.Area" class="form-control" />
-		<span asp-validation-for="Home.Area"></span>
+		<input asp-for="Home.Area" class="form-control w-25"/>
+		<span asp-validation-for="Home.Area" class="text-danger"></span>
 	</div>
 	<input asp-for="Home.Id" type="hidden" />
-	<button type="submit">Save Changes</button>
+	<button type="submit" class="btn btn-primary">Save Changes</button>
 </form>
 
-<button type="button" onclick="showConfirmation()">Delete</button>
+<button type="button" onclick="showConfirmation()" class="btn btn-danger">Delete</button>
 
 <div id="deleteConfirmation" style="display:none;">
 	<p>Are you sure you want to delete this record?</p>
-	<button onclick="deleteHome(@Model.Home.Id)">Confirm Delete</button>
-	<button onclick="closeConfirmation()">Cancel</button>
+	<button class="btn btn-danger" onclick="deleteHome(@Model.Home.Id)">Confirm Delete</button>
+	<button class="btn btn-primary" onclick="closeConfirmation()">Cancel</button>
 </div>
-
-<a asp-page="/Index">Back to Home List</a>/a>
