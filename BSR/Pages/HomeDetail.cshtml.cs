@@ -34,15 +34,32 @@ public class HomeDetail : PageModel
         {
             return Page();
         }
-        _homeService.UpdateHome(Home);
 
-        return RedirectToPage("/Index");
+        try
+        {
+            _homeService.UpdateHome(Home);
+            TempData["SuccessMessage"] = "Successfully updated home";
+            return RedirectToPage("/Index");
+        }
+        catch (Exception e)
+        {
+            TempData["ErrorMessage"] = $"Error updating home: {e.Message}";
+            return Page();
+        }
     }
 
     public IActionResult OnPostDelete(int id)
     {
-        _homeService.DeleteHome(id);
-
-        return new OkResult();
+        try
+        {
+            _homeService.DeleteHome(id);
+            TempData["SuccessMessage"] = "Successfully deleted home";
+            return new OkResult();
+        }
+        catch (Exception e)
+        {
+            TempData["ErrorMessage"] = $"Error deleting home: {e.Message}";
+            return Page();
+        }
     }
 }

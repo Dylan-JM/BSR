@@ -25,7 +25,17 @@ public class AddHome : PageModel
         {
             return Page();
         }
-        _homeService.AddHome(NewHome);
-        return RedirectToPage("./Index");
+
+        try
+        {
+            _homeService.AddHome(NewHome);
+            TempData["SuccessMessage"] = "Home added successfully";
+            return RedirectToPage("./Index");
+        }
+        catch (Exception e)
+        {
+            TempData["ErrorMessage"] = $"Error adding home: {e.Message}";
+            return Page();
+        }
     }
 }

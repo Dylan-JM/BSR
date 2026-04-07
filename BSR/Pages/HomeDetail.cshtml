@@ -1,6 +1,18 @@
 ﻿@page
 @model BSR.Pages.HomeDetail
 
+@if (TempData["SuccessMessage"] != null){
+	<div class="alert alert-success mt-3" role="alert">
+		@TempData["SuccessMessage"]
+	</div>
+}
+	
+@if (TempData["ErrorMessage"] != null){
+	<div class="alert alert-danger mt-3" role="alert">
+		@TempData["ErrorMessage"]
+	</div>
+}
+
 <h2>Update Home Details</h2>
 
 <a class="btn btn-outline-dark mt-3 mb-3" asp-page="/Index">Back to Home List</a>
