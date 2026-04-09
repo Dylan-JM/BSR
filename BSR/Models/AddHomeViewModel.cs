@@ -24,7 +24,7 @@ public class AddHomeViewModel
     public int Area { get; set; }
 
     [ValidateNever]
-    public string ImageUrl { get; set; }
+    public string? ImageUrl { get; set; }
 
     public List<string> Counties { get; set; }
     public List<string> Cities { get; set; }
