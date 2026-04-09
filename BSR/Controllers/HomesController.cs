@@ -17,9 +17,9 @@ public class HomesController : Controller
     }
 
     [HttpGet]
-    public IActionResult GetCities()
+    public async Task<IActionResult> GetCities()
     {
-        var cities = _addressService.GetUkCities();
+        var cities = await _addressService.GetUkCities();
         return Ok(cities);
     }
 

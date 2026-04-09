@@ -6,38 +6,25 @@ namespace BSR.Services;
 public class AddressService
 {
     private readonly IHttpClientFactory _httpClientFactory;
-    private readonly string _apiKey;
+    private readonly string _geoNamesUser;
 
     public AddressService(IHttpClientFactory httpClientFactory, IConfiguration config)
     {
         _httpClientFactory = httpClientFactory;
-        _apiKey = config["CSC:ApiKey"];
+        _geoNamesUser = config["GeoNames:Username"];
     }
 
-    public List<string> GetUkCities()
+    public async Task<List<string>> GetUkCities()
     {
-        var httpClient = _httpClientFactory.CreateClient();
-        httpClient.DefaultRequestHeaders.Add("X-CSCAPI-KEY", _apiKey);
+        var http = _httpClientFactory.CreateClient();
 
-        var request = new HttpRequestMessage(
-            HttpMethod.Get,
-            "https://api.countrystatecity.in/v1/countries/GB/cities"
-        );
+        var url =
+            $"http://api.geonames.org/searchJSON?country=GB&featureClass=P&maxRows=1000&orderby=population&username={_geoNamesUser}";
 
-        try
-        {
-            var response = httpClient.Send(request);
-            if (!response.IsSuccessStatusCode)
-                return new List<string>();
+        var json = await http.GetStringAsync(url);
 
-            var json = response.Content.ReadAsStringAsync().Result;
-            var cities = JsonConvert.DeserializeObject<List<CitiesResponse>>(json);
+        var result = JsonConvert.DeserializeObject<GeoNamesResponse>(json);
 
-            return cities.Select(c => c.Name).ToList();
-        }
-        catch
-        {
-            return new List<string>();
-        }
+        return result.Geonames.Select(x => x.Name).Distinct().OrderBy(x => x).ToList();
     }
 }
