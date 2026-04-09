@@ -14,18 +14,47 @@ public class HomesController : Controller
     }
 
     // HomeList Page
-    public IActionResult Index()
+    public IActionResult Index(int? minPrice, int? maxPrice, int? minArea, int? maxArea)
     {
         var homesViewModel = new HomeViewModel();
 
         try
         {
-            homesViewModel.Homes = _homeService.GetHomes();
+            var homes = homesViewModel.Homes = _homeService.GetHomes();
+
+            if (minPrice.HasValue)
+            {
+                homes = homes.Where(h => h.Price >= minPrice.Value).ToList();
+            }
+
+            if (maxPrice.HasValue)
+            {
+                homes = homes.Where(h => h.Price <= maxPrice.Value).ToList();
+            }
+
+            if (minArea.HasValue)
+            {
+                homes = homes.Where(h => h.Area >= minArea.Value).ToList();
+            }
+
+            if (maxArea.HasValue)
+            {
+                homes = homes.Where(h => h.Area <= maxArea.Value).ToList();
+            }
+
+            homesViewModel.Homes = homes;
         }
         catch (Exception e)
         {
             TempData["ErrorMessage"] = $"Error fetching homes: {e.Message}";
         }
+
+        homesViewModel.MaxPrice = maxPrice;
+        homesViewModel.MinPrice = minPrice;
+
+        homesViewModel.MaxArea = maxArea;
+        homesViewModel.MinArea = minArea;
+
         return View(homesViewModel);
     }
 
