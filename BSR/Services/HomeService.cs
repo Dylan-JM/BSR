@@ -46,9 +46,14 @@ public class HomeService
                 var home = new Home
                 {
                     Id = i,
-                    Price = faker.Finance.Amount(200000, 700000), // Random price between 200,000 and 700,000
-                    Address = faker.Address.StreetAddress(), // Generate a realistic street address
-                    Area = faker.Random.Int(100, 200), // Random area between 100 and 200 square meters
+                    Price = faker.Finance.Amount(200000, 700000),
+                    StreetAddress = faker.Address.StreetAddress(),
+                    County = faker.Address.County(),
+                    City = faker.Address.City(),
+                    Area = faker.Random.Int(100, 200),
+                    Bedrooms = faker.Random.Int(1, 5),
+                    Bathrooms = faker.Random.Int(1, 5),
+                    GarageSpots = faker.Random.Int(1, 5),
                     ImageUrl = imageUrls[i % imageUrls.Count],
                 };
 
@@ -84,7 +89,7 @@ public class HomeService
         var home = _context.Homes.FirstOrDefault(h => h.Id == updatedHome.Id);
 
         home.Price = updatedHome.Price;
-        home.Address = updatedHome.Address;
+        home.StreetAddress = updatedHome.StreetAddress;
         home.Area = updatedHome.Area;
 
         _context.Homes.Update(home);

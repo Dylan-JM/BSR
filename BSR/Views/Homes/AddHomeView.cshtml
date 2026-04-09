@@ -1,36 +1,274 @@
-﻿@using BSR.Models
-@model Home
+﻿@using BSR
+@model AddHomeViewModel
 
-@if (TempData["SuccessMessage"] != null){
-	<div class="alert alert-success mt-3 " role="alert">
-		@TempData["SuccessMessage"]
-	</div>
-}
+<partial name="_AlertMessages" />
 
-@if (TempData["ErrorMessage"] != null){
-	<div class="alert alert-danger mt-3" role="alert">
-		@TempData["ErrorMessage"]
-	</div>
-}
-
-<a class="btn btn-outline-dark mt-3 mb-3" asp-controller="Homes" asp-action="Index">Back to Home List</a>
-
+<a class="btn btn-outline-dark mt-3 mb-3"
+   asp-controller="Homes"
+   asp-action="Index">
+    Back to Home List
+</a>
 
 <h2>Add a New Home</h2>
 
-<form class="pb=3" asp-action="AddHome" asp-controller="Homes" method="post">
-	<div asp-validation-summary="All" class="text-danger"></div>
-	<div class="form-group pb-3 w-25">
-		<label>Price</label>
-		<input asp-for="Price" class="form-control"/>
-	</div>
-	<div class="form-group pb-3 w-50">
-		<label>Address</label>
-		<input asp-for="Address" class="form-control"/>
-	</div>
-	<div class="form-group pb-3 w-25">
-		<label>Square Meters</label>
-		<input asp-for="Area" class="form-control"/>
-	</div>
-	<input type="submit" value="Add Home" class="btn btn-success"/>
+<form class="pb-3" asp-action="AddHome" asp-controller="Homes" method="post">
+
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="form-group pb-3 w-25">
+        <label>Price</label>
+        <input asp-for="Price" class="form-control" />
+    </div>
+
+    <div class="form-group pb-3 w-100">
+        <label>Street Address</label>
+        <input asp-for="StreetAddress" class="form-control" />
+    </div>
+
+    <div class="form-group pb-3 w-25 search-dropdown">
+        <label for="countyInput">County</label>
+        <input asp-for="County" class="form-control" id="countyInput" autocomplete="off" />
+        <div class="dropdown-menu w-100" id="countyDropdown">
+            @foreach (var county in Model.Counties)
+            {
+                <div class="dropdown-item">@county</div>
+            }
+        </div>
+    </div>
+
+    <div class="form-group pb-3 w-25 search-dropdown">
+        <label for="cityInput">City</label>
+        <input asp-for="City" class="form-control" id="cityInput" autocomplete="off" />
+        <div class="dropdown-menu w-100" id="cityDropdown">
+            @foreach (var city in Model.Cities)
+            {
+                <div class="dropdown-item">@city</div>
+            }
+        </div>
+    </div>
+
+    <div class="form-group pb-3 w-25">
+        <label>Square Meters</label>
+        <input asp-for="Area" class="form-control" />
+    </div>
+
+    <div class="form-group pb-3 w-25">
+        <label>Bedrooms</label>
+        <input asp-for="Bedrooms" class="form-control" type="number" min="1" max="5" />
+    </div>
+
+    <div class="form-group pb-3 w-25">
+        <label>Bathrooms</label>
+        <input asp-for="Bathrooms" class="form-control" type="number" min="1" max="5" />
+    </div>
+
+    <div class="form-group pb-3 w-25">
+        <label>Garage Spots</label>
+        <input asp-for="GarageSpots" class="form-control" type="number" min="1" max="5" />
+    </div>
+
+    <input type="submit" class="btn btn-success" value="Add Home" />
+
 </form>
+
+@section Scripts {
+    <style>
+        .search-dropdown {
+            position: relative;
+        }
+        .search-dropdown .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            max-height: 240px;
+            overflow-y: auto;
+            background: white;
+            border: 1px solid #ced4da;
+            border-radius: .25rem;
+            box-shadow: 0 .25rem .5rem rgba(0,0,0,.1);
+        }
+        .search-dropdown .dropdown-item {
+            padding: .5rem .75rem;
+            cursor: pointer;
+        }
+        .search-dropdown .dropdown-item:hover,
+        .search-dropdown .dropdown-item.active {
+            background-color: #f8f9fa;
+        }
+        .search-dropdown .dropdown-item.disabled {
+            cursor: default;
+            color: #6c757d;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var countyInput = document.getElementById('countyInput');
+            var cityInput = document.getElementById('cityInput');
+            var countyDropdown = document.getElementById('countyDropdown');
+            var cityDropdown = document.getElementById('cityDropdown');
+
+            function filterDropdown(dropdown, query) {
+                var items = dropdown.querySelectorAll('.dropdown-item');
+                var visibleCount = 0;
+                query = query.trim().toLowerCase();
+
+                items.forEach(function (item) {
+                    if (item.classList.contains('disabled')) {
+                        item.style.display = 'block';
+                        return;
+                    }
+
+                    var text = item.textContent.trim().toLowerCase();
+                    var match = !query || text.indexOf(query) !== -1;
+                    item.style.display = match ? 'block' : 'none';
+                    if (match) {
+                        visibleCount++;
+                    }
+                });
+
+                return visibleCount;
+            }
+
+            function showDropdown(dropdown) {
+                dropdown.style.display = 'block';
+            }
+
+            function hideDropdown(dropdown) {
+                dropdown.style.display = 'none';
+            }
+
+            function setCityItems(cities) {
+                cityDropdown.innerHTML = '';
+                if (!cities || cities.length === 0) {
+                    var empty = document.createElement('div');
+                    empty.className = 'dropdown-item disabled';
+                    empty.textContent = 'No cities found';
+                    cityDropdown.appendChild(empty);
+                    return;
+                }
+
+                cities.forEach(function (city) {
+                    var option = document.createElement('div');
+                    option.className = 'dropdown-item';
+                    option.textContent = city;
+                    cityDropdown.appendChild(option);
+                });
+            }
+
+            function fetchCitiesForCounty(county) {
+                if (!county) {
+                    setCityItems([]);
+                    cityInput.value = '';
+                    return;
+                }
+
+                fetch('/Homes/GetCities?county=' + encodeURIComponent(county))
+                    .then(function (response) {
+                        if (!response.ok) {
+                            throw new Error('Unable to load cities');
+                        }
+                        return response.json();
+                    })
+                    .then(function (cities) {
+                        setCityItems(cities);
+                        filterDropdown(cityDropdown, cityInput.value);
+                    })
+                    .catch(function (error) {
+                        console.error(error);
+                        setCityItems([]);
+                    });
+            }
+
+            function getExactMatch(dropdown, value) {
+                var items = dropdown.querySelectorAll('.dropdown-item');
+                value = value.trim().toLowerCase();
+                for (var i = 0; i < items.length; i++) {
+                    var item = items[i];
+                    if (item.classList.contains('disabled')) continue;
+                    if (item.textContent.trim().toLowerCase() === value) {
+                        return item.textContent.trim();
+                    }
+                }
+                return null;
+            }
+
+            function handleSelection(input, dropdown) {
+                dropdown.addEventListener('click', function (event) {
+                    var target = event.target;
+                    if (!target.classList.contains('dropdown-item') || target.classList.contains('disabled')) {
+                        return;
+                    }
+                    input.value = target.textContent.trim();
+                    hideDropdown(dropdown);
+                    input.dispatchEvent(new Event('change'));
+                });
+            }
+
+            handleSelection(countyInput, countyDropdown);
+            handleSelection(cityInput, cityDropdown);
+
+            countyInput.addEventListener('change', function () {
+                var exact = getExactMatch(countyDropdown, countyInput.value);
+                if (exact) {
+                    fetchCitiesForCounty(exact);
+                } else {
+                    setCityItems([]);
+                }
+            });
+
+            countyInput.addEventListener('input', function () {
+                var visible = filterDropdown(countyDropdown, countyInput.value);
+                if (visible > 0) {
+                    showDropdown(countyDropdown);
+                } else {
+                    hideDropdown(countyDropdown);
+                }
+            });
+
+            countyInput.addEventListener('focus', function () {
+                var visible = filterDropdown(countyDropdown, countyInput.value);
+                if (visible > 0) {
+                    showDropdown(countyDropdown);
+                }
+            });
+
+            countyInput.addEventListener('blur', function () {
+                setTimeout(function () { hideDropdown(countyDropdown); }, 150);
+                var value = countyInput.value.trim();
+                if (value) {
+                    var exact = getExactMatch(countyDropdown, value);
+                    if (exact) {
+                        fetchCitiesForCounty(exact);
+                    } else {
+                        setCityItems([]);
+                    }
+                } else {
+                    setCityItems([]);
+                }
+            });
+
+            cityInput.addEventListener('input', function () {
+                var visible = filterDropdown(cityDropdown, cityInput.value);
+                if (visible > 0) {
+                    showDropdown(cityDropdown);
+                } else {
+                    hideDropdown(cityDropdown);
+                }
+            });
+
+            cityInput.addEventListener('focus', function () {
+                var visible = filterDropdown(cityDropdown, cityInput.value);
+                if (visible > 0) {
+                    showDropdown(cityDropdown);
+                }
+            });
+
+            cityInput.addEventListener('blur', function () {
+                setTimeout(function () { hideDropdown(cityDropdown); }, 150);
+            });
+        });
+    </script>
+}

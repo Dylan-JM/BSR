@@ -16,11 +16,26 @@ public class HomesController : Controller
         _addressService = addressService;
     }
 
-    [HttpGet]
-    public async Task<IActionResult> GetCities()
+    public async Task<IActionResult> GetCities(string county)
     {
-        var cities = await _addressService.GetUkCities();
+        var cities = await _addressService.GetCitiesInCounty(county);
         return Ok(cities);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> AddHomeView()
+    {
+        var counties = await _addressService.GetUkCounties();
+
+        var vm = new AddHomeViewModel
+        {
+            Counties = counties.Keys.ToList(),
+            Cities = new List<string>(),
+        };
+
+        ViewBag.CountyCodes = counties;
+
+        return View(vm);
     }
 
     // HomeList Page
@@ -76,19 +91,31 @@ public class HomesController : Controller
         return View(homesViewModel);
     }
 
-    // Add Home
-    [HttpGet]
-    public IActionResult AddHomeView()
-    {
-        return View();
-    }
-
     [HttpPost]
-    public IActionResult AddHome(Home newHome)
+    public async Task<IActionResult> AddHome(Home newHome)
     {
         if (!ModelState.IsValid)
         {
-            return View("AddHomeView", newHome);
+            var counties = await _addressService.GetUkCounties();
+            var vm = new AddHomeViewModel
+            {
+                Id = newHome.Id,
+                StreetAddress = newHome.StreetAddress,
+                City = newHome.City,
+                County = newHome.County,
+                Bedrooms = newHome.Bedrooms,
+                Bathrooms = newHome.Bathrooms,
+                GarageSpots = newHome.GarageSpots,
+                Price = newHome.Price,
+                Area = newHome.Area,
+                Counties = counties.Keys.ToList(),
+                Cities = !string.IsNullOrEmpty(newHome.County) && counties.TryGetValue(newHome.County, out var selectedCode)
+                    ? await _addressService.GetCitiesInCounty(selectedCode)
+                    : new List<string>(),
+            };
+
+            ViewBag.CountyCodes = counties;
+            return View("AddHomeView", vm);
         }
 
         try
@@ -99,8 +126,27 @@ public class HomesController : Controller
         }
         catch (Exception e)
         {
+            var counties = await _addressService.GetUkCounties();
+            var vm = new AddHomeViewModel
+            {
+                Id = newHome.Id,
+                StreetAddress = newHome.StreetAddress,
+                City = newHome.City,
+                County = newHome.County,
+                Bedrooms = newHome.Bedrooms,
+                Bathrooms = newHome.Bathrooms,
+                GarageSpots = newHome.GarageSpots,
+                Price = newHome.Price,
+                Area = newHome.Area,
+                Counties = counties.Keys.ToList(),
+                Cities = !string.IsNullOrEmpty(newHome.County) && counties.TryGetValue(newHome.County, out var selectedCode)
+                    ? await _addressService.GetCitiesInCounty(selectedCode)
+                    : new List<string>(),
+            };
+
+            ViewBag.CountyCodes = counties;
             TempData["ErrorMessage"] = $"Error adding home: {e.Message}";
-            return View("AddHomeView", newHome);
+            return View("AddHomeView", vm);
         }
     }
 
