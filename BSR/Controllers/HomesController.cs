@@ -8,10 +8,19 @@ namespace BSR.Controllers;
 public class HomesController : Controller
 {
     private readonly HomeService _homeService;
+    private readonly AddressService _addressService;
 
-    public HomesController(HomeService homeService)
+    public HomesController(HomeService homeService, AddressService addressService)
     {
         _homeService = homeService;
+        _addressService = addressService;
+    }
+
+    [HttpGet]
+    public IActionResult GetCities()
+    {
+        var cities = _addressService.GetUkCities();
+        return Ok(cities);
     }
 
     // HomeList Page
