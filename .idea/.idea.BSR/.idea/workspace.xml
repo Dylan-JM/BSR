@@ -10,11 +10,11 @@
   <component name="ChangeListManager">
     <list default="true" id="fb7d96e4-45d6-4d99-9779-0e3b5e975ecc" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.BSR/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BSR/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BSR/BSR.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/BSR/BSR.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BSR/Controllers/HomesController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BSR/Controllers/HomesController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BSR/Models/HomeViewModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BSR/Models/HomeViewModel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BSR/Services/HomeService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BSR/Services/HomeService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BSR/Views/Homes/Index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/BSR/Views/Homes/Index.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BSR/bsr.db-shm" beforeDir="false" afterPath="$PROJECT_DIR$/BSR/bsr.db-shm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BSR/bsr.db-wal" beforeDir="false" afterPath="$PROJECT_DIR$/BSR/bsr.db-wal" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BSR/bsr.db" beforeDir="false" afterPath="$PROJECT_DIR$/BSR/bsr.db" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,6 +32,9 @@
   &quot;associatedIndex&quot;: 2
 }</component>
   <component name="ProjectId" id="3C2wR9JafCQyMqLJWKyzbEVwgjf" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -94,7 +97,7 @@
       <option name="presentableId" value="Default" />
       <updated>1775596963511</updated>
       <workItem from="1775596964646" duration="48000" />
-      <workItem from="1775741653955" duration="1711000" />
+      <workItem from="1775741653955" duration="2743000" />
     </task>
     <servers />
   </component>
