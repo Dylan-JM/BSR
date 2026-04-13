@@ -7,11 +7,17 @@ namespace BSR.Controllers;
 
 public class HomesController : Controller
 {
+    private readonly ILogger<HomesController> _logger;
     private readonly HomeService _homeService;
     private readonly AddressService _addressService;
 
-    public HomesController(HomeService homeService, AddressService addressService)
+    public HomesController(
+        ILogger<HomesController> logger,
+        HomeService homeService,
+        AddressService addressService
+    )
     {
+        _logger = logger;
         _homeService = homeService;
         _addressService = addressService;
     }
@@ -87,11 +93,18 @@ public class HomesController : Controller
                 TotalItems = totalItems,
             };
 
+            // demo to see logs
+            if (totalItems > 450)
+            {
+                _logger.LogWarning("Database is close to reaching its capacity");
+            }
+
             homesViewModel.Homes = homes;
             ViewBag.HomesCount = homes.Count();
         }
         catch (Exception e)
         {
+            _logger.LogError(e, "Error fetching homes from the database {EMessage}", e.Message);
             TempData["ErrorMessage"] = $"Error fetching homes: {e.Message}";
         }
 
