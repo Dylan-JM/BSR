@@ -39,6 +39,13 @@ builder
     .AddEntityFrameworkStores<HomeContext>()
     .AddDefaultTokenProviders();
 
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Login";
+    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+    options.Cookie.HttpOnly = true;
+});
+
 builder.Services.AddScoped<HomeService>();
 builder.Services.AddScoped<AddressService>();
 builder.Services.AddScoped<DataSeedService>();
@@ -48,6 +55,9 @@ builder.Services.AddRazorPages();
 builder.Services.AddDbContext<HomeContext>(opt => opt.UseSqlite("Data Source=bsr.db"));
 
 var app = builder.Build();
+
+app.UseHttpsRedirection();
+
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<HomeContext>();
@@ -64,6 +74,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthentication();
+app.UseAuthorization();
 
 app.UseEndpoints(endpoints =>
 {

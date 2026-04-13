@@ -1,10 +1,12 @@
 ﻿using System.Diagnostics;
 using BSR.Models;
 using BSR.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BSR.Controllers;
 
+[Authorize]
 public class HomesController : Controller
 {
     private readonly ILogger<HomesController> _logger;
@@ -33,11 +35,7 @@ public class HomesController : Controller
     {
         var counties = await _addressService.GetUkCounties();
 
-        var vm = new AddHomeViewModel
-        {
-            Counties = counties,
-            Cities = new List<string>(),
-        };
+        var vm = new AddHomeViewModel { Counties = counties, Cities = new List<string>() };
 
         ViewBag.CountyCodes = counties;
 
@@ -45,6 +43,7 @@ public class HomesController : Controller
     }
 
     // HomeList Page
+    [AllowAnonymous]
     public async Task<IActionResult> Index(
         int? minPrice,
         int? maxPrice,
@@ -132,8 +131,7 @@ public class HomesController : Controller
                 Area = newHome.Area,
                 Counties = counties,
                 Cities =
-                    !string.IsNullOrEmpty(newHome.County)
-                    && counties.Contains(newHome.County)
+                    !string.IsNullOrEmpty(newHome.County) && counties.Contains(newHome.County)
                         ? await _addressService.GetCitiesInCounty(newHome.County)
                         : new List<string>(),
             };
@@ -164,8 +162,7 @@ public class HomesController : Controller
                 Area = newHome.Area,
                 Counties = counties,
                 Cities =
-                    !string.IsNullOrEmpty(newHome.County)
-                    && counties.Contains(newHome.County)
+                    !string.IsNullOrEmpty(newHome.County) && counties.Contains(newHome.County)
                         ? await _addressService.GetCitiesInCounty(newHome.County)
                         : new List<string>(),
             };
