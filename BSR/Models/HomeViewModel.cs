@@ -10,6 +10,13 @@ public class HomeViewModel
 
     public int? MinArea { get; set; }
     public int? MaxArea { get; set; }
+    public int? MinGarage { get; set; }
+    public int? MinBedrooms { get; set; }
+    public int? MinBathrooms { get; set; }
+    public List<string> Counties { get; set; }
+    public List<string> Cities { get; set; }
+    public string? County { get; set; }
+    public string? City { get; set; }
 
     public PaginationInfo PaginationInfo { get; set; }
 }

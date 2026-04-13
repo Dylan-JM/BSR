@@ -14,59 +14,59 @@ public class AddressService
         _geoNamesUser = config["GeoNames:Username"];
     }
 
-    private static readonly Dictionary<string, string> UkCounties = new(StringComparer.OrdinalIgnoreCase)
+    private static readonly List<string> UkCounties = new()
     {
-        { "Bedfordshire", "Bedfordshire" },
-        { "Berkshire", "Berkshire" },
-        { "Bristol", "Bristol" },
-        { "Buckinghamshire", "Buckinghamshire" },
-        { "Cambridgeshire", "Cambridgeshire" },
-        { "Cheshire", "Cheshire" },
-        { "City of London", "City of London" },
-        { "Cornwall", "Cornwall" },
-        { "County Durham", "County Durham" },
-        { "Cumbria", "Cumbria" },
-        { "Derbyshire", "Derbyshire" },
-        { "Devon", "Devon" },
-        { "Dorset", "Dorset" },
-        { "East Riding of Yorkshire", "East Riding of Yorkshire" },
-        { "East Sussex", "East Sussex" },
-        { "Essex", "Essex" },
-        { "Gloucestershire", "Gloucestershire" },
-        { "Greater London", "Greater London" },
-        { "Greater Manchester", "Greater Manchester" },
-        { "Hampshire", "Hampshire" },
-        { "Herefordshire", "Herefordshire" },
-        { "Hertfordshire", "Hertfordshire" },
-        { "Isle of Wight", "Isle of Wight" },
-        { "Kent", "Kent" },
-        { "Lancashire", "Lancashire" },
-        { "Leicestershire", "Leicestershire" },
-        { "Lincolnshire", "Lincolnshire" },
-        { "Merseyside", "Merseyside" },
-        { "Norfolk", "Norfolk" },
-        { "North Yorkshire", "North Yorkshire" },
-        { "Northamptonshire", "Northamptonshire" },
-        { "Northumberland", "Northumberland" },
-        { "Nottinghamshire", "Nottinghamshire" },
-        { "Oxfordshire", "Oxfordshire" },
-        { "Rutland", "Rutland" },
-        { "Shropshire", "Shropshire" },
-        { "Somerset", "Somerset" },
-        { "South Yorkshire", "South Yorkshire" },
-        { "Staffordshire", "Staffordshire" },
-        { "Suffolk", "Suffolk" },
-        { "Surrey", "Surrey" },
-        { "Tyne and Wear", "Tyne and Wear" },
-        { "Warwickshire", "Warwickshire" },
-        { "West Midlands", "West Midlands" },
-        { "West Sussex", "West Sussex" },
-        { "West Yorkshire", "West Yorkshire" },
-        { "Wiltshire", "Wiltshire" },
-        { "Worcestershire", "Worcestershire" }
+        "Bedfordshire",
+        "Berkshire",
+        "Bristol",
+        "Buckinghamshire",
+        "Cambridgeshire",
+        "Cheshire",
+        "City of London",
+        "Cornwall",
+        "County Durham",
+        "Cumbria",
+        "Derbyshire",
+        "Devon",
+        "Dorset",
+        "East Riding of Yorkshire",
+        "East Sussex",
+        "Essex",
+        "Gloucestershire",
+        "Greater London",
+        "Greater Manchester",
+        "Hampshire",
+        "Herefordshire",
+        "Hertfordshire",
+        "Isle of Wight",
+        "Kent",
+        "Lancashire",
+        "Leicestershire",
+        "Lincolnshire",
+        "Merseyside",
+        "Norfolk",
+        "North Yorkshire",
+        "Northamptonshire",
+        "Northumberland",
+        "Nottinghamshire",
+        "Oxfordshire",
+        "Rutland",
+        "Shropshire",
+        "Somerset",
+        "South Yorkshire",
+        "Staffordshire",
+        "Suffolk",
+        "Surrey",
+        "Tyne and Wear",
+        "Warwickshire",
+        "West Midlands",
+        "West Sussex",
+        "West Yorkshire",
+        "Wiltshire",
+        "Worcestershire",
     };
 
-    public Task<Dictionary<string, string>> GetUkCounties()
+    public Task<List<string>> GetUkCounties()
     {
         return Task.FromResult(UkCounties);
     }
@@ -87,11 +87,7 @@ public class AddressService
 
         var result = JsonConvert.DeserializeObject<GeoNamesResponse>(json);
 
-        return result?
-            .Geonames
-            .Select(x => x.Name)
-            .Distinct()
-            .OrderBy(x => x)
-            .ToList() ?? new List<string>();
+        return result?.Geonames.Select(x => x.Name).Distinct().OrderBy(x => x).ToList()
+            ?? new List<string>();
     }
 }

@@ -1,58 +1,64 @@
 ﻿@using BSR.Models
 @model Home
 
-@if (TempData["SuccessMessage"] != null){
-	<div class="alert alert-success mt-3" role="alert">
-		@TempData["SuccessMessage"]
-	</div>
-}
-	
-@if (TempData["ErrorMessage"] != null){
-	<div class="alert alert-danger mt-3" role="alert">
-		@TempData["ErrorMessage"]
-	</div>
-}
-
-<h2>Update Home Details</h2>
+<partial name="_AlertMessages" />
 
 <a class="btn btn-outline-dark mt-3 mb-3" asp-action="Index" asp-controller="Homes">Back to Home List</a>
 
+<h2>Update Home Details</h2>
+
 <form class="pb-3" method="post" asp-action="Update" asp-controller="Homes" id="updateHomeForm">
-	<div class="form-group pb-3">
-		<label asp-for="Price"></label>
-		<input asp-for="Price" class="form-control w-25"/>
-		<span asp-validation-for="Price" class="text-danger"></span>
-	</div>
-	<div class="form-group pb-3">
-		<label asp-for="StreetAddress"></label>
-		<input asp-for="StreetAddress" class="form-control w-25"/>
-		<span asp-validation-for="StreetAddress" class="text-danger"></span>
-	</div>
-	<div class="form-group pb-3">
-		<label asp-for="Area"></label>
-		<input asp-for="Area" class="form-control w-25"/>
-		<span asp-validation-for="Area" class="text-danger"></span>
-	</div>
-	<input asp-for="Id" type="hidden" />
-	<button type="submit" class="btn btn-primary">Save Changes</button>
+    <div class="form-floating mb-3">
+        <input asp-for="Price" class="form-control w-25" id="price" placeholder=" " value="@Model.Price">
+        <label asp-for="Price" for="price">Price</label>
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+    <div class="form-floating mb-3">
+        <input asp-for="StreetAddress" class="form-control w-50" id="streetAddress" placeholder=" " value="@Model.StreetAddress">
+        <label asp-for="StreetAddress" for="streetAddress">Street Address</label>
+        <span asp-validation-for="StreetAddress" class="text-danger"></span>
+    </div>
+    <div class="form-floating mb-2">
+        <input asp-for="Area" class="form-control w-25" id="area" placeholder=" " value="@Model.Area">
+        <label asp-for="Area" for="area">Area</label>
+        <span asp-validation-for="Area" class="text-danger"></span>
+    </div>
+    <div class="form-floating mb-2">
+        <input asp-for="Bathrooms" class="form-control w-25" id="bathrooms" placeholder=" " value="@Model.Bathrooms">
+        <label asp-for="Bathrooms" for="bathrooms">Bathrooms</label>
+        <span asp-validation-for="Bathrooms" class="text-danger"></span>
+    </div>
+    <div class="form-floating mb-2">
+        <input asp-for="Bedrooms" class="form-control w-25" id="bedrooms" placeholder=" " value="@Model.Bedrooms">
+        <label asp-for="Bedrooms" for="bedrooms">Bedrooms</label>
+        <span asp-validation-for="Bedrooms" class="text-danger"></span>
+    </div>
+    <div class="form-floating mb-2">
+        <input asp-for="GarageSpots" class="form-control w-25" id="garageSpots" placeholder=" " value="@Model.GarageSpots">
+        <label asp-for="GarageSpots" for="garageSpots">Garage Spots</label>
+        <span asp-validation-for="GarageSpots" class="text-danger"></span>
+    </div>
+
+    <input asp-for="Id" type="hidden" />
+    <button type="submit" class="btn btn-success">Save Changes</button>
 </form>
 
 <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">Delete</button>
 
 <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="deleteConfirmationModalLabel">Confirm Delete</h5>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-			</div>
-			<div class="modal-body">
-				Are you sure you want to delete this record?
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-				<button class="btn btn-danger" onclick="deleteHome(@Model.Id)">Confirm Delete</button>
-			</div>
-		</div>
-	</div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteConfirmationModalLabel">Confirm Delete</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this record?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button class="btn btn-danger" onclick="deleteHome(@Model.Id)">Confirm Delete</button>
+            </div>
+        </div>
+    </div>
 </div>

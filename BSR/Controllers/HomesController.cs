@@ -35,7 +35,7 @@ public class HomesController : Controller
 
         var vm = new AddHomeViewModel
         {
-            Counties = counties.Keys.ToList(),
+            Counties = counties,
             Cities = new List<string>(),
         };
 
@@ -45,11 +45,16 @@ public class HomesController : Controller
     }
 
     // HomeList Page
-    public IActionResult Index(
+    public async Task<IActionResult> Index(
         int? minPrice,
         int? maxPrice,
         int? minArea,
         int? maxArea,
+        int? minBath,
+        int? minCar,
+        int? minBed,
+        string? county,
+        string? city,
         int pageNumber = 1,
         int pageSize = 10
     )
@@ -61,31 +66,25 @@ public class HomesController : Controller
 
         try
         {
-            var homes = _homeService.GetHomes();
-
-            if (minPrice.HasValue)
-            {
-                homes = homes.Where(h => h.Price >= minPrice.Value).ToList();
-            }
-
-            if (maxPrice.HasValue)
-            {
-                homes = homes.Where(h => h.Price <= maxPrice.Value).ToList();
-            }
-
-            if (minArea.HasValue)
-            {
-                homes = homes.Where(h => h.Area >= minArea.Value).ToList();
-            }
-
-            if (maxArea.HasValue)
-            {
-                homes = homes.Where(h => h.Area <= maxArea.Value).ToList();
-            }
+            //modified
+            var homes = _homeService.GetHomes(
+                minPrice,
+                maxPrice,
+                minArea,
+                maxArea,
+                minBath,
+                minCar,
+                minBed,
+                county,
+                city
+            );
 
             int totalItems = homes.Count();
             homes = homes.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
 
+            //new
+            homesViewModel.Counties = await _addressService.GetUkCounties();
+            homesViewModel.Homes = homes;
             homesViewModel.PaginationInfo = new PaginationInfo
             {
                 CurrentPage = pageNumber,
@@ -93,14 +92,7 @@ public class HomesController : Controller
                 TotalItems = totalItems,
             };
 
-            // demo to see logs
-            if (totalItems > 450)
-            {
-                _logger.LogWarning("Database is close to reaching its capacity");
-            }
-
-            homesViewModel.Homes = homes;
-            ViewBag.HomesCount = homes.Count();
+            ViewBag.HomesCount = totalItems;
         }
         catch (Exception e)
         {
@@ -138,11 +130,11 @@ public class HomesController : Controller
                 GarageSpots = newHome.GarageSpots,
                 Price = newHome.Price,
                 Area = newHome.Area,
-                Counties = counties.Keys.ToList(),
+                Counties = counties,
                 Cities =
                     !string.IsNullOrEmpty(newHome.County)
-                    && counties.TryGetValue(newHome.County, out var selectedCode)
-                        ? await _addressService.GetCitiesInCounty(selectedCode)
+                    && counties.Contains(newHome.County)
+                        ? await _addressService.GetCitiesInCounty(newHome.County)
                         : new List<string>(),
             };
 
@@ -170,11 +162,11 @@ public class HomesController : Controller
                 GarageSpots = newHome.GarageSpots,
                 Price = newHome.Price,
                 Area = newHome.Area,
-                Counties = counties.Keys.ToList(),
+                Counties = counties,
                 Cities =
                     !string.IsNullOrEmpty(newHome.County)
-                    && counties.TryGetValue(newHome.County, out var selectedCode)
-                        ? await _addressService.GetCitiesInCounty(selectedCode)
+                    && counties.Contains(newHome.County)
+                        ? await _addressService.GetCitiesInCounty(newHome.County)
                         : new List<string>(),
             };
 

@@ -12,11 +12,57 @@ public class HomeService
         _context = context;
     }
 
-    public List<Home> GetHomes()
-    {
-        return _context.Homes.ToList();
-    }
+ public List<Home> GetHomes(int? minPrice, int? maxPrice, int? minArea, int? maxArea, int? minBath, int? minCar, int? minBed, string? county, string? city)
+  {
+      IQueryable<Home> homesQuery = _context.Homes.AsQueryable();
 
+      if (minPrice.HasValue)
+      {
+          homesQuery = homesQuery.Where(h => h.Price >= minPrice);
+      }
+
+      if (maxPrice.HasValue)
+      {
+          homesQuery = homesQuery.Where(h => h.Price <= maxPrice);
+      }
+
+      if (minArea.HasValue)
+      {
+          homesQuery = homesQuery.Where(h => h.Area >= minArea);
+      }
+
+      if (maxArea.HasValue)
+      {
+          homesQuery = homesQuery.Where(h => h.Area <= maxArea);
+      }
+
+      if (minBath.HasValue)
+      {
+          homesQuery = homesQuery.Where(h => h.Bathrooms >= minBath);
+      }
+
+      if (minCar.HasValue)
+      {
+          homesQuery = homesQuery.Where(h => h.GarageSpots >= minCar);
+      }
+
+      if (minBed.HasValue)
+      {
+          homesQuery = homesQuery.Where(h => h.Bedrooms >= minBed);
+      }
+
+      if (!string.IsNullOrEmpty(county))
+      {
+          homesQuery = homesQuery.Where(h => h.County.Equals(county));
+      }
+
+      if (!string.IsNullOrEmpty(city))
+      {
+          homesQuery = homesQuery.Where(h => h.City.Equals(city));
+      }
+
+      return homesQuery.ToList();
+  }
     public void AddHome(Home home)
     {
         _context.Add(home);
