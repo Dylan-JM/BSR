@@ -39,7 +39,14 @@ public class HomesController : Controller
     }
 
     // HomeList Page
-    public IActionResult Index(int? minPrice, int? maxPrice, int? minArea, int? maxArea)
+    public IActionResult Index(
+        int? minPrice,
+        int? maxPrice,
+        int? minArea,
+        int? maxArea,
+        int pageNumber = 1,
+        int pageSize = 10
+    )
     {
         var stopwatch = new Stopwatch();
         stopwatch.Start();
@@ -69,6 +76,16 @@ public class HomesController : Controller
             {
                 homes = homes.Where(h => h.Area <= maxArea.Value).ToList();
             }
+
+            int totalItems = homes.Count();
+            homes = homes.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+
+            homesViewModel.PaginationInfo = new PaginationInfo
+            {
+                CurrentPage = pageNumber,
+                ItemsPerPage = pageSize,
+                TotalItems = totalItems,
+            };
 
             homesViewModel.Homes = homes;
             ViewBag.HomesCount = homes.Count();
@@ -109,9 +126,11 @@ public class HomesController : Controller
                 Price = newHome.Price,
                 Area = newHome.Area,
                 Counties = counties.Keys.ToList(),
-                Cities = !string.IsNullOrEmpty(newHome.County) && counties.TryGetValue(newHome.County, out var selectedCode)
-                    ? await _addressService.GetCitiesInCounty(selectedCode)
-                    : new List<string>(),
+                Cities =
+                    !string.IsNullOrEmpty(newHome.County)
+                    && counties.TryGetValue(newHome.County, out var selectedCode)
+                        ? await _addressService.GetCitiesInCounty(selectedCode)
+                        : new List<string>(),
             };
 
             ViewBag.CountyCodes = counties;
@@ -139,9 +158,11 @@ public class HomesController : Controller
                 Price = newHome.Price,
                 Area = newHome.Area,
                 Counties = counties.Keys.ToList(),
-                Cities = !string.IsNullOrEmpty(newHome.County) && counties.TryGetValue(newHome.County, out var selectedCode)
-                    ? await _addressService.GetCitiesInCounty(selectedCode)
-                    : new List<string>(),
+                Cities =
+                    !string.IsNullOrEmpty(newHome.County)
+                    && counties.TryGetValue(newHome.County, out var selectedCode)
+                        ? await _addressService.GetCitiesInCounty(selectedCode)
+                        : new List<string>(),
             };
 
             ViewBag.CountyCodes = counties;
