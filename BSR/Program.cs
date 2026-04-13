@@ -26,9 +26,16 @@ builder
 
 builder.Services.AddControllersWithViews();
 
-//new code
 builder
-    .Services.AddIdentity<ApplicationUser, IdentityRole>()
+    .Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+    {
+        options.Password.RequireDigit = false;
+        options.Password.RequiredLength = 5;
+        options.Password.RequireLowercase = false;
+        options.Password.RequireUppercase = false;
+        options.Password.RequireNonAlphanumeric = false;
+        options.SignIn.RequireConfirmedEmail = false;
+    })
     .AddEntityFrameworkStores<HomeContext>()
     .AddDefaultTokenProviders();
 
@@ -45,7 +52,7 @@ using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<HomeContext>();
 
-    dbContext.Database.EnsureDeleted();
+    //dbContext.Database.EnsureDeleted();
     dbContext.Database.EnsureCreated();
 
     var dataSeedService = scope.ServiceProvider.GetRequiredService<DataSeedService>();
