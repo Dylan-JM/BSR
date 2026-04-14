@@ -32,6 +32,7 @@ public class Register : PageModel
 
             if (result.Succeeded)
             {
+                await _userManager.AddToRoleAsync(identity, "User"); //new
                 await _signInManager.SignInAsync(identity, isPersistent: false);
                 return LocalRedirect("~/");
             }
