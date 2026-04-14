@@ -60,16 +60,7 @@ var app = builder.Build();
 
 app.UseHttpsRedirection();
 
-using (var scope = app.Services.CreateScope())
-{
-    var dbContext = scope.ServiceProvider.GetRequiredService<HomeContext>();
-
-    dbContext.Database.EnsureDeleted();
-    dbContext.Database.EnsureCreated();
-
-    var dataSeedService = scope.ServiceProvider.GetRequiredService<DataSeedService>();
-    dataSeedService.SeedHomes();
-}
+await SeedRolesAsync(app);
 
 app.UseStaticFiles();
 
@@ -86,4 +77,53 @@ app.UseEndpoints(endpoints =>
         pattern: "{controller=Homes}/{action=Index}/{id?}"
     );
 });
+
 app.Run();
+
+static async Task SeedRolesAsync(WebApplication app)
+{
+    using var scope = app.Services.CreateScope();
+    var dbContext = scope.ServiceProvider.GetRequiredService<HomeContext>();
+
+    dbContext.Database.EnsureDeleted();
+    dbContext.Database.EnsureCreated();
+
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    if (!await roleManager.RoleExistsAsync("Admin"))
+    {
+        await roleManager.CreateAsync(new IdentityRole { Id = "admin", Name = "Admin", NormalizedName = "ADMIN" });
+    }
+    if (!await roleManager.RoleExistsAsync("Sales"))
+    {
+        await roleManager.CreateAsync(new IdentityRole { Id = "sales", Name = "Sales", NormalizedName = "SALES" });
+    }
+    if (!await roleManager.RoleExistsAsync("User"))
+    {
+        await roleManager.CreateAsync(new IdentityRole { Id = "user", Name = "User", NormalizedName = "USER" });
+    }
+
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+    var adminUser = new ApplicationUser { UserName = "admin@bsr.com", Email = "admin@bsr.com" };
+    var result = await userManager.CreateAsync(adminUser, "Admin123!");
+    if (result.Succeeded)
+    {
+        await userManager.AddToRoleAsync(adminUser, "Admin");
+    }
+
+    var salesUser = new ApplicationUser { UserName = "sales@bsr.com", Email = "sales@bsr.com" };
+    result = await userManager.CreateAsync(salesUser, "Sales123!");
+    if (result.Succeeded)
+    {
+        await userManager.AddToRoleAsync(salesUser, "Sales");
+    }
+
+    var defaultUser = new ApplicationUser { UserName = "user@bsr.com", Email = "user@bsr.com" };
+    result = await userManager.CreateAsync(defaultUser, "User123!");
+    if (result.Succeeded)
+    {
+        await userManager.AddToRoleAsync(defaultUser, "User");
+    }
+
+    var dataSeedService = scope.ServiceProvider.GetRequiredService<DataSeedService>();
+    dataSeedService.SeedHomes();
+}
