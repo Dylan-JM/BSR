@@ -56,6 +56,14 @@ builder.Services.AddRazorPages();
 
 builder.Services.AddDbContext<HomeContext>(opt => opt.UseSqlite("Data Source=bsr.db"));
 
+builder.Services.AddAuthentication()
+    .AddMicrosoftAccount(microsoftOptions =>
+    {
+        microsoftOptions.ClientId = builder.Configuration.GetSection("MicrosoftAuth:ClientId").Value;
+        microsoftOptions.ClientSecret = builder.Configuration.GetSection("MicrosoftAuth:ClientSecret").Value;
+    });
+
+
 var app = builder.Build();
 
 app.UseHttpsRedirection();

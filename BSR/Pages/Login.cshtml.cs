@@ -3,16 +3,21 @@ using BSR.Views.Homes;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using BSR.Controllers;
 
 namespace BSR.Pages;
 
 public class Login : PageModel
 {
     private readonly SignInManager<ApplicationUser> _signInManager;
+    private readonly ILogger<HomesController> _logger;
 
-    public Login(SignInManager<ApplicationUser> signInManager)
+    public Login(
+        SignInManager<ApplicationUser> signInManager, 
+        ILogger<HomesController> logger)
     {
         _signInManager = signInManager;
+        _logger = logger;
     }
 
     [BindProperty]
@@ -20,19 +25,28 @@ public class Login : PageModel
 
     public async Task<IActionResult> OnPostAsync()
     {
-        if (ModelState.IsValid)
+        try
         {
-            var result = await _signInManager.PasswordSignInAsync(
-                Input.Email,
-                Input.Password,
-                isPersistent: false,
-                lockoutOnFailure: false
-            );
-
-            if (result.Succeeded)
+            if (ModelState.IsValid)
             {
-                return LocalRedirect("~/");
+                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, isPersistent: false, lockoutOnFailure: false);
+
+                if (result.Succeeded)
+                {
+                    return LocalRedirect("~/");
+                }
+                else
+                {
+                    _logger.LogError($"Login Unsuccessful");
+                    TempData["ErrorMessage"] = "Login Not Successful";
+                }
             }
+        } 
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, $"Login error: {ex.Message}");
+            TempData["ErrorMessage"] = "There was an error";
+            return Page();
         }
 
         return Page();
