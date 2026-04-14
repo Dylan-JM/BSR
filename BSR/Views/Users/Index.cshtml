@@ -1,33 +1,46 @@
 ﻿@using BSR.Models
+@using System.Security.Claims
 @model UsersViewModel
 
-<div class="pt-5">
-	<h2>@ViewBag.UsersCount users found.</h2>
+@{
+    var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+}
 
-	@if (Model.Users != null && Model.Users.Count > 0)
-	{
-		<div class="row g-4">
-			<table class="table">
-				<thead>
-				<tr>
-					<th scope="col">Email</th>
-					<th scope="col">Role</th>
-				</tr>
-				</thead>
-				<tbody>
-				@foreach (var user in Model.Users)
-				{
-					<tr>
-						<th scope="row">@user.Email</th>
-						<td>@user.Role</td>
-					</tr>
-				}
-				</tbody>
-			</table>
-		</div>
-	}
-	else
-	{
-		<p>No users registered.</p>
-	}
+<div class="pt-5">
+    <partial name="_AlertMessages" />
+
+    <h2>@ViewBag.UsersCount users found.</h2>
+
+    @if (Model.Users != null && Model.Users.Count > 0)
+    {
+        <div class="row g-4">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Email</th>
+                        <th scope="col">Role</th>
+                        <th scope="col">Registration Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model.Users)
+                    {
+                        if (user.Id != currentUserId)
+                        {
+                            <tr>
+                                <th scope="row">@user.Email</th>
+                                <td>@user.Role</td>
+                                <td>@user.RegistrationDate</td>
+                                <td><a asp-controller="/Users" asp-action="UserDetailView" asp-route-id="@user.Id" class="btn btn-dark">View Details</a></td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <p>No users registered.</p>
+    }
 </div>

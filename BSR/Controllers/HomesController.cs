@@ -81,7 +81,6 @@ public class HomesController : Controller
             int totalItems = homes.Count();
             homes = homes.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
 
-            //new
             homesViewModel.Counties = await _addressService.GetUkCounties();
             homesViewModel.Homes = homes;
             homesViewModel.PaginationInfo = new PaginationInfo

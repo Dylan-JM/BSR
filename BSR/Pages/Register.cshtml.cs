@@ -25,20 +25,25 @@ public class Register : PageModel
 
     public async Task<IActionResult> OnPostAsync()
     {
-        if (ModelState.IsValid)
-        {
-            var identity = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
-            var result = await _userManager.CreateAsync(identity, Input.Password);
+     if (ModelState.IsValid)
+     {
+          var identity = new ApplicationUser { 
+                UserName = Input.Email, 
+                Email = Input.Email,
+                RegistrationDate = DateOnly.FromDateTime(DateTime.Now)
+            };
+       
+         var result = await _userManager.CreateAsync(identity, Input.Password);
 
-            if (result.Succeeded)
-            {
-                await _userManager.AddToRoleAsync(identity, "User"); //new
-                await _signInManager.SignInAsync(identity, isPersistent: false);
-                return LocalRedirect("~/");
-            }
-        }
+         if (result.Succeeded)
+         {
+             await _userManager.AddToRoleAsync(identity, "User");
+             await _signInManager.SignInAsync(identity, isPersistent: false);
+             return LocalRedirect("~/");
+         }
+     }
 
-        return Page();
+     return Page();
     }
 }
 

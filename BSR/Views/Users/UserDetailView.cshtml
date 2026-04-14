@@ -1,0 +1,24 @@
+﻿@using BSR.Models
+@model UserViewModel
+
+<partial name="_AlertMessages" />
+
+<a class="btn btn-outline-dark mt-3 mb-3" asp-action="Index" asp-controller="Users">Back to Users List</a>
+
+<h2>Update User Details</h2>
+
+<form class="pb-3" method="post" asp-action="Update" asp-controller="Users" id="updateUserForm">
+    <div class="form-floating mb-3">
+        <div class="mb-1">RegistrationDate: @Model.RegistrationDate</div>
+        <div>
+            <select asp-for="Role" class="form-select" id="userRole">
+                <option value="">Select User Role</option>
+                <option value="admin">Admin</option>
+                <option value="sales">Sales</option>
+                <option value="user">User</option>
+            </select>
+        </div>
+    </div>
+    <input asp-for="Id" type="hidden" />
+    <button type="submit" class="btn btn-success">Save Changes</button>
+</form>
