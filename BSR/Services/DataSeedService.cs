@@ -230,15 +230,14 @@ public class DataSeedService
         if (!_homeContext.Homes.Any())
         {
             var faker = new Faker("en");
-            var homeId = 1;
 
             // Create homes for each county with varied filter values
             foreach (var county in CountiesToCities.Keys)
             {
                 var cities = CountiesToCities[county];
 
-                // Create 5-7 homes per county with different filter combinations
-                for (int j = 0; j < 6; j++)
+                // Create x homes per county with different filter combinations (set to one to save azure credits)
+                for (int j = 0; j < 1; j++)
                 {
                     var home = new Home
                     {

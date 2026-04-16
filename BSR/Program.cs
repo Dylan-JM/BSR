@@ -99,8 +99,8 @@ static async Task SeedRolesAsync(WebApplication app)
     using var scope = app.Services.CreateScope();
     var dbContext = scope.ServiceProvider.GetRequiredService<HomeContext>();
 
-    dbContext.Database.EnsureDeleted();
-    dbContext.Database.EnsureCreated();
+    //dbContext.Database.EnsureDeleted();
+    //dbContext.Database.EnsureCreated();
 
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
     if (!await roleManager.RoleExistsAsync("Admin"))

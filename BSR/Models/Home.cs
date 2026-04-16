@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore;
 
 namespace BSR.Models;
 
@@ -11,6 +12,7 @@ public class Home
     public int Bedrooms { get; set; }
     public int Bathrooms { get; set; }
     public int GarageSpots { get; set; }
+    [Precision(18, 2)]
     public decimal Price { get; set; }
     public int Area { get; set; }
     public string? ImageUrl { get; set; }
