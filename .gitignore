@@ -6,3 +6,8 @@ riderModule.iml
 .idea
 BSR/appsettings.local.json
 .vs
+/BSR/publish
+BSR/publish.zip
+/BSR/Properties
+BSR/dotnet-tools.json
+BSR/BSR.csproj.user
