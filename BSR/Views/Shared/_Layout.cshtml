@@ -28,14 +28,14 @@
                     </li>
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <li class="nav-item">
-                            <form id="logoutForm" asp-page-handler="Logout" asp-page="/Logout" method="post" class="nav-link">
+                        <li class="nav-item d-flex align-items-center">
+                            <form id="logoutForm" asp-page-handler="Logout" asp-page="/Logout" method="post" class="m-0 p-0">
                                 <button type="submit" class="btn btn-link nav-link">Logout</button>
                             </form>
                         </li>
-                        @if (User.IsInRole("Admin")) 
+                        @if (User.IsInRole("Admin"))
                         {
-                            <li class="nav-item">
+                            <li class="nav-item d-flex align-items-center">
                                 <a class="nav-link" href="/Users">Admin</a>
                             </li>
                         }
