@@ -54,15 +54,21 @@ builder.Services.AddScoped<UserService>();
 builder.Services.AddHttpClient();
 builder.Services.AddRazorPages();
 
-builder.Services.AddDbContext<HomeContext>(opt => opt.UseSqlite("Data Source=bsr.db"));
+builder.Services.AddDbContext<HomeContext>(opt =>
+    opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+);
 
-builder.Services.AddAuthentication()
+builder
+    .Services.AddAuthentication()
     .AddMicrosoftAccount(microsoftOptions =>
     {
-        microsoftOptions.ClientId = builder.Configuration.GetSection("MicrosoftAuth:ClientId").Value;
-        microsoftOptions.ClientSecret = builder.Configuration.GetSection("MicrosoftAuth:ClientSecret").Value;
+        microsoftOptions.ClientId = builder
+            .Configuration.GetSection("MicrosoftAuth:ClientId")
+            .Value;
+        microsoftOptions.ClientSecret = builder
+            .Configuration.GetSection("MicrosoftAuth:ClientSecret")
+            .Value;
     });
-
 
 var app = builder.Build();
 
@@ -99,15 +105,36 @@ static async Task SeedRolesAsync(WebApplication app)
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
     if (!await roleManager.RoleExistsAsync("Admin"))
     {
-        await roleManager.CreateAsync(new IdentityRole { Id = "admin", Name = "Admin", NormalizedName = "ADMIN" });
+        await roleManager.CreateAsync(
+            new IdentityRole
+            {
+                Id = "admin",
+                Name = "Admin",
+                NormalizedName = "ADMIN",
+            }
+        );
     }
     if (!await roleManager.RoleExistsAsync("Sales"))
     {
-        await roleManager.CreateAsync(new IdentityRole { Id = "sales", Name = "Sales", NormalizedName = "SALES" });
+        await roleManager.CreateAsync(
+            new IdentityRole
+            {
+                Id = "sales",
+                Name = "Sales",
+                NormalizedName = "SALES",
+            }
+        );
     }
     if (!await roleManager.RoleExistsAsync("User"))
     {
-        await roleManager.CreateAsync(new IdentityRole { Id = "user", Name = "User", NormalizedName = "USER" });
+        await roleManager.CreateAsync(
+            new IdentityRole
+            {
+                Id = "user",
+                Name = "User",
+                NormalizedName = "USER",
+            }
+        );
     }
 
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();

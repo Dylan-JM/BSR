@@ -14,54 +14,198 @@ public class DataSeedService
 
     private static readonly Dictionary<string, List<string>> CountiesToCities = new()
     {
-        { "Bedfordshire", new List<string> { "Bedford", "Luton", "Dunstable" } },
-        { "Berkshire", new List<string> { "Reading", "Slough", "Maidenhead", "Windsor" } },
-        { "Bristol", new List<string> { "Bristol", "Southmead", "Filton" } },
-        { "Buckinghamshire", new List<string> { "Aylesbury", "High Wycombe", "Slough", "Beaconsfield" } },
-        { "Cambridgeshire", new List<string> { "Cambridge", "Peterborough", "Ely" } },
-        { "Cheshire", new List<string> { "Chester", "Warrington", "Stockport" } },
-        { "City of London", new List<string> { "London" } },
-        { "Cornwall", new List<string> { "Truro", "Penzance", "Bodmin" } },
-        { "County Durham", new List<string> { "Durham", "Sunderland", "Darlington" } },
-        { "Cumbria", new List<string> { "Carlisle", "Kendal", "Penrith" } },
-        { "Derbyshire", new List<string> { "Derby", "Chesterfield", "Ilkeston" } },
-        { "Devon", new List<string> { "Exeter", "Plymouth", "Barnstaple", "Torquay" } },
-        { "Dorset", new List<string> { "Dorchester", "Poole", "Weymouth", "Bournemouth" } },
-        { "East Riding of Yorkshire", new List<string> { "Kingston upon Hull", "Beverley", "Goole" } },
-        { "East Sussex", new List<string> { "Brighton", "Eastbourne", "Hastings" } },
-        { "Essex", new List<string> { "Chelmsford", "Southend-on-Sea", "Colchester", "Basildon" } },
-        { "Gloucestershire", new List<string> { "Gloucester", "Cheltenham", "Forest of Dean" } },
-        { "Greater London", new List<string> { "London", "Westminster", "Camden", "Kensington" } },
-        { "Greater Manchester", new List<string> { "Manchester", "Bolton", "Oldham", "Stockport" } },
-        { "Hampshire", new List<string> { "Winchester", "Southampton", "Portsmouth", "Basingstoke" } },
-        { "Herefordshire", new List<string> { "Hereford", "Ross-on-Wye", "Leominster" } },
-        { "Hertfordshire", new List<string> { "Hertford", "Watford", "St Albans" } },
-        { "Isle of Wight", new List<string> { "Newport", "Sandown", "Shanklin" } },
-        { "Kent", new List<string> { "Maidstone", "Canterbury", "Dover", "Gillingham" } },
-        { "Lancashire", new List<string> { "Preston", "Liverpool", "Manchester", "Burnley" } },
-        { "Leicestershire", new List<string> { "Leicester", "Loughborough", "Hinckley" } },
-        { "Lincolnshire", new List<string> { "Lincoln", "Boston", "Grantham" } },
-        { "Merseyside", new List<string> { "Liverpool", "Birkenhead", "Wallasey" } },
-        { "Norfolk", new List<string> { "Norwich", "Great Yarmouth", "King's Lynn" } },
-        { "North Yorkshire", new List<string> { "York", "Harrogate", "Scarborough", "Leeds" } },
-        { "Northamptonshire", new List<string> { "Northampton", "Kettering", "Wellingborough" } },
-        { "Northumberland", new List<string> { "Newcastle upon Tyne", "Sunderland", "Gateshead" } },
-        { "Nottinghamshire", new List<string> { "Nottingham", "Mansfield", "Newark" } },
-        { "Oxfordshire", new List<string> { "Oxford", "Banbury", "Witney" } },
-        { "Rutland", new List<string> { "Oakham", "Uppingham" } },
-        { "Shropshire", new List<string> { "Shrewsbury", "Telford", "Ludlow" } },
-        { "Somerset", new List<string> { "Bath", "Bristol", "Taunton", "Wells" } },
-        { "South Yorkshire", new List<string> { "Sheffield", "Rotherham", "Doncaster" } },
-        { "Staffordshire", new List<string> { "Stafford", "Stoke-on-Trent", "Lichfield" } },
-        { "Suffolk", new List<string> { "Ipswich", "Lowestoft", "Sudbury" } },
-        { "Surrey", new List<string> { "Guildford", "Woking", "Croydon", "Sutton" } },
-        { "Tyne and Wear", new List<string> { "Newcastle upon Tyne", "Sunderland", "Gateshead" } },
-        { "Warwickshire", new List<string> { "Warwick", "Coventry", "Rugby" } },
-        { "West Midlands", new List<string> { "Birmingham", "Wolverhampton", "Coventry" } },
-        { "West Sussex", new List<string> { "Chichester", "Worthing", "Crawley" } },
-        { "West Yorkshire", new List<string> { "Leeds", "Bradford", "Wakefield", "Halifax" } },
-        { "Wiltshire", new List<string> { "Salisbury", "Swindon", "Trowbridge" } },
-        { "Worcestershire", new List<string> { "Worcester", "Redditch", "Bromsgrove" } },
+        {
+            "Bedfordshire",
+            new List<string> { "Bedford", "Luton", "Dunstable" }
+        },
+        {
+            "Berkshire",
+            new List<string> { "Reading", "Slough", "Maidenhead", "Windsor" }
+        },
+        {
+            "Bristol",
+            new List<string> { "Bristol", "Southmead", "Filton" }
+        },
+        {
+            "Buckinghamshire",
+            new List<string> { "Aylesbury", "High Wycombe", "Slough", "Beaconsfield" }
+        },
+        {
+            "Cambridgeshire",
+            new List<string> { "Cambridge", "Peterborough", "Ely" }
+        },
+        {
+            "Cheshire",
+            new List<string> { "Chester", "Warrington", "Stockport" }
+        },
+        {
+            "City of London",
+            new List<string> { "London" }
+        },
+        {
+            "Cornwall",
+            new List<string> { "Truro", "Penzance", "Bodmin" }
+        },
+        {
+            "County Durham",
+            new List<string> { "Durham", "Sunderland", "Darlington" }
+        },
+        {
+            "Cumbria",
+            new List<string> { "Carlisle", "Kendal", "Penrith" }
+        },
+        {
+            "Derbyshire",
+            new List<string> { "Derby", "Chesterfield", "Ilkeston" }
+        },
+        {
+            "Devon",
+            new List<string> { "Exeter", "Plymouth", "Barnstaple", "Torquay" }
+        },
+        {
+            "Dorset",
+            new List<string> { "Dorchester", "Poole", "Weymouth", "Bournemouth" }
+        },
+        {
+            "East Riding of Yorkshire",
+            new List<string> { "Kingston upon Hull", "Beverley", "Goole" }
+        },
+        {
+            "East Sussex",
+            new List<string> { "Brighton", "Eastbourne", "Hastings" }
+        },
+        {
+            "Essex",
+            new List<string> { "Chelmsford", "Southend-on-Sea", "Colchester", "Basildon" }
+        },
+        {
+            "Gloucestershire",
+            new List<string> { "Gloucester", "Cheltenham", "Forest of Dean" }
+        },
+        {
+            "Greater London",
+            new List<string> { "London", "Westminster", "Camden", "Kensington" }
+        },
+        {
+            "Greater Manchester",
+            new List<string> { "Manchester", "Bolton", "Oldham", "Stockport" }
+        },
+        {
+            "Hampshire",
+            new List<string> { "Winchester", "Southampton", "Portsmouth", "Basingstoke" }
+        },
+        {
+            "Herefordshire",
+            new List<string> { "Hereford", "Ross-on-Wye", "Leominster" }
+        },
+        {
+            "Hertfordshire",
+            new List<string> { "Hertford", "Watford", "St Albans" }
+        },
+        {
+            "Isle of Wight",
+            new List<string> { "Newport", "Sandown", "Shanklin" }
+        },
+        {
+            "Kent",
+            new List<string> { "Maidstone", "Canterbury", "Dover", "Gillingham" }
+        },
+        {
+            "Lancashire",
+            new List<string> { "Preston", "Liverpool", "Manchester", "Burnley" }
+        },
+        {
+            "Leicestershire",
+            new List<string> { "Leicester", "Loughborough", "Hinckley" }
+        },
+        {
+            "Lincolnshire",
+            new List<string> { "Lincoln", "Boston", "Grantham" }
+        },
+        {
+            "Merseyside",
+            new List<string> { "Liverpool", "Birkenhead", "Wallasey" }
+        },
+        {
+            "Norfolk",
+            new List<string> { "Norwich", "Great Yarmouth", "King's Lynn" }
+        },
+        {
+            "North Yorkshire",
+            new List<string> { "York", "Harrogate", "Scarborough", "Leeds" }
+        },
+        {
+            "Northamptonshire",
+            new List<string> { "Northampton", "Kettering", "Wellingborough" }
+        },
+        {
+            "Northumberland",
+            new List<string> { "Newcastle upon Tyne", "Sunderland", "Gateshead" }
+        },
+        {
+            "Nottinghamshire",
+            new List<string> { "Nottingham", "Mansfield", "Newark" }
+        },
+        {
+            "Oxfordshire",
+            new List<string> { "Oxford", "Banbury", "Witney" }
+        },
+        {
+            "Rutland",
+            new List<string> { "Oakham", "Uppingham" }
+        },
+        {
+            "Shropshire",
+            new List<string> { "Shrewsbury", "Telford", "Ludlow" }
+        },
+        {
+            "Somerset",
+            new List<string> { "Bath", "Bristol", "Taunton", "Wells" }
+        },
+        {
+            "South Yorkshire",
+            new List<string> { "Sheffield", "Rotherham", "Doncaster" }
+        },
+        {
+            "Staffordshire",
+            new List<string> { "Stafford", "Stoke-on-Trent", "Lichfield" }
+        },
+        {
+            "Suffolk",
+            new List<string> { "Ipswich", "Lowestoft", "Sudbury" }
+        },
+        {
+            "Surrey",
+            new List<string> { "Guildford", "Woking", "Croydon", "Sutton" }
+        },
+        {
+            "Tyne and Wear",
+            new List<string> { "Newcastle upon Tyne", "Sunderland", "Gateshead" }
+        },
+        {
+            "Warwickshire",
+            new List<string> { "Warwick", "Coventry", "Rugby" }
+        },
+        {
+            "West Midlands",
+            new List<string> { "Birmingham", "Wolverhampton", "Coventry" }
+        },
+        {
+            "West Sussex",
+            new List<string> { "Chichester", "Worthing", "Crawley" }
+        },
+        {
+            "West Yorkshire",
+            new List<string> { "Leeds", "Bradford", "Wakefield", "Halifax" }
+        },
+        {
+            "Wiltshire",
+            new List<string> { "Salisbury", "Swindon", "Trowbridge" }
+        },
+        {
+            "Worcestershire",
+            new List<string> { "Worcester", "Redditch", "Bromsgrove" }
+        },
     };
 
     public void SeedHomes()
@@ -98,7 +242,6 @@ public class DataSeedService
                 {
                     var home = new Home
                     {
-                        Id = homeId++,
                         Price = (200000 + (j * 80000)) + faker.Random.Int(-20000, 20000),
                         StreetAddress = $"{faker.Random.Int(1, 500)} {faker.Address.StreetName()}",
                         County = county,

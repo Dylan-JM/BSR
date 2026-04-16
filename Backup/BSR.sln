@@ -1,8 +1,5 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# SQL Server Management Studio Version 22
-VisualStudioVersion = 18.5.11709.299 stable
-MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BSR", "BSR\BSR.csproj", "{EC383C97-5F94-44F0-B542-18EFA55C088D}"
 EndProject
 Global
@@ -15,11 +12,5 @@ Global
 		{EC383C97-5F94-44F0-B542-18EFA55C088D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC383C97-5F94-44F0-B542-18EFA55C088D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EC383C97-5F94-44F0-B542-18EFA55C088D}.Release|Any CPU.Build.0 = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {068C5F32-5AB6-4833-BC44-165706FB270B}
 	EndGlobalSection
 EndGlobal
